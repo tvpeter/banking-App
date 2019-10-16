@@ -1,6 +1,8 @@
+import '@babel/polyfill';
 import express from 'express';
 import dotenv from 'dotenv';
 import logger from 'morgan';
+import router from './routes/index';
 
 const { NODE_ENV } = process.env;
 const app = express();
@@ -18,6 +20,10 @@ app.get('/', (req, res) => {
   });
 });
 
+app.use('/api/v1', router);
+
 const port = process.env.PORT || 3000;
 
 app.listen(port);
+
+export default app;

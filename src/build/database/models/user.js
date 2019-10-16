@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     firstName: DataTypes.STRING,
@@ -9,26 +11,26 @@ module.exports = (sequelize, DataTypes) => {
     dob: DataTypes.DATEONLY,
     role: DataTypes.ENUM('admin', 'staff'),
     status: DataTypes.ENUM('active', 'suspended'),
-    branchId: DataTypes.INTEGER,
+    branchId: DataTypes.INTEGER
   }, {});
-  User.associate = (models) => {
+  User.associate = models => {
     User.belongsTo(models.Branch, {
       foreignKey: 'branchId',
       as: 'branch',
       onUpdate: 'CASCADE',
-      onDelete: 'CASCADE',
+      onDelete: 'CASCADE'
     });
     User.hasMany(models.Account, {
       foreignKey: 'userId',
       as: 'account',
       onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
+      onUpdate: 'CASCADE'
     });
     User.hasMany(models.Transaction, {
       foreignKey: 'userId',
       as: 'transaction',
       onDelete: 'RESTRICT',
-      onUpdate: 'RESTRICT',
+      onUpdate: 'RESTRICT'
     });
   };
   return User;

@@ -7,25 +7,27 @@ var _dotenv2 = _interopRequireDefault(_dotenv);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _dotenv2.default.config();
-
-const { DB_DEV_NAME, DB_USER_NAME, DB_PASSWORD } = process.env;
+const {
+  DEV_DB_NAME, DB_USERNAME, DB_PASSWORD, DEV_DB_HOST,
+  TEST_DB_NAME, DB_PORT
+} = process.env;
 const dialect = 'postgres';
 
 module.exports = {
   development: {
-    username: DB_USER_NAME,
+    username: DB_USERNAME,
     password: DB_PASSWORD,
-    database: DB_DEV_NAME,
-    host: '127.0.0.1',
+    database: DEV_DB_NAME,
+    host: DEV_DB_HOST,
     port: process.env.DB_PORT,
     dialect
   },
   test: {
-    username: DB_USER_NAME,
+    username: DB_USERNAME,
     password: DB_PASSWORD,
-    database: process.env.DB_TEST_NAME,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    database: TEST_DB_NAME,
+    host: DEV_DB_HOST,
+    port: DB_PORT,
     logging: false,
     dialect
   },
