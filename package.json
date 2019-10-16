@@ -1,0 +1,51 @@
+{
+  "name": "banking-app",
+  "version": "1.0.0",
+  "description": "A basic banking service app",
+  "main": "index.js",
+  "scripts": {
+    "predev": "export NODE_ENV=development",
+    "dev": "npm run build && nodemon --exec babel-node src/index.js",
+    "build": "babel src --out-dir src/build",
+    "prebuild": "rm -rf src/build",
+    "start": "node src/build/index.js",
+    "lint": "eslint src",
+    "migrate": "sequelize db:migrate",
+    "migrate:undo": "sequelize db:migrate:undo:all",
+    "seed": "sequelize db:seed:all",
+    "db:reset": "npm run migrate:undo && npm run migrate && npm run seed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tvpeter/banking-App.git"
+  },
+  "author": "tyonum peter",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tvpeter/banking-App/issues"
+  },
+  "homepage": "https://github.com/tvpeter/banking-App#readme",
+  "dependencies": {
+    "@babel/core": "7.6.4",
+    "@babel/node": "7.6.3",
+    "babel-cli": "6.26.0",
+    "babel-preset-env": "1.7.0",
+    "babel-register": "6.26.0",
+    "babel-watch": "7.0.0",
+    "dotenv": "8.1.0",
+    "express": "4.17.1",
+    "morgan": "1.9.1",
+    "pg": "7.12.1",
+    "pg-hstore": "2.3.3",
+    "sequelize": "5.19.6"
+  },
+  "devDependencies": {
+    "eslint": "6.5.1",
+    "eslint-config-airbnb-base": "14.0.0",
+    "eslint-config-prettier": "6.4.0",
+    "eslint-plugin-import": "2.18.2",
+    "eslint-plugin-prettier": "3.1.1",
+    "nodemon": "1.19.3",
+    "prettier": "1.18.2"
+  }
+}
