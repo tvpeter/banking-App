@@ -13,7 +13,7 @@
     "migrate": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo:all",
     "seed": "sequelize db:seed:all",
-    "db:reset": "npm run migrate:undo && npm run migrate && npm run seed"
+    "db:reset": "npm run migrate:undo && npm run migrate"
   },
   "repository": {
     "type": "git",
@@ -28,12 +28,16 @@
   "dependencies": {
     "@babel/core": "7.6.4",
     "@babel/node": "7.6.3",
+    "@babel/polyfill": "7.6.0",
     "babel-cli": "6.26.0",
     "babel-preset-env": "1.7.0",
     "babel-register": "6.26.0",
     "babel-watch": "7.0.0",
+    "bcrypt": "3.0.6",
     "dotenv": "8.1.0",
     "express": "4.17.1",
+    "express-validator": "6.1.1",
+    "jsonwebtoken": "8.5.1",
     "morgan": "1.9.1",
     "pg": "7.12.1",
     "pg-hstore": "2.3.3",
