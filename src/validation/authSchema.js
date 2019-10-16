@@ -2,8 +2,26 @@
 import { check } from 'express-validator';
 
 const dateRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
+const loginSchema = [
+  check('email')
+    .exists()
+    .withMessage('Email is required')
+    .trim()
+    .not()
+    .isEmpty()
+    .withMessage('Email must not be empty')
+    .isEmail()
+    .withMessage('Must be an email address'),
+  check('password')
+    .exists()
+    .withMessage('Password is required')
+    .trim()
+    .isLength({ min: 8 })
+    .withMessage('Invalid password'),
+];
 
-const schema = [
+const signUpSchema = [
+  ...loginSchema,
   check('firstName')
     .trim()
     .exists().withMessage('First name is required')
@@ -20,13 +38,6 @@ const schema = [
     .isAlpha()
     .withMessage('Last name should only contain alphabets'),
 
-  check('email')
-    .trim()
-    .exists()
-    .withMessage('Email address is required')
-    .isEmail()
-    .withMessage('Email address is invalid'),
-
   check('phone')
     .trim()
     .exists()
@@ -34,14 +45,6 @@ const schema = [
     .isNumeric()
     .isLength(11)
     .withMessage('Invalid phone number'),
-
-  check('password')
-    .trim()
-    .exists().withMessage('Password is required')
-    .isLength({ min: 8 })
-    .withMessage('Password must be alphanumeric and not be less than 8 characters')
-    .isAlphanumeric()
-    .withMessage('Password must be alphanumeric and not be less than 8 characters'),
 
   check('dob')
     .exists()
@@ -65,4 +68,4 @@ const schema = [
     .withMessage('Male or Female is the accepted value'),
 ];
 
-export default schema;
+export { signUpSchema, loginSchema };

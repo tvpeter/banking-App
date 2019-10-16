@@ -50,8 +50,39 @@ class Auth {
 
       return res.status(response.code).json(response);
     } catch (err) {
-      return (err.routine === '_bt_check_unique') ? res.status(400).json(new Response(false, 400, 'Email/phone number already taken'))
-        : res.status(500).json(new Response(false, 500, 'Server error'));
+      return res.status(500).json(new Response(false, 500, 'server error', err.errors[0].message));
+    }
+  }
+
+  /**
+   * @description - this method logs a user into the system
+   *
+   * @param {object} req - the request object
+   * @param {object} res  - the response object
+   * @returns {object} - object
+   */
+  static async login(req, res) {
+    const { email, password } = req.body;
+    try {
+      const user = await User.findOne({ where: { email } });
+      if (!user) {
+        const response = new Response(false, 401, 'Incorrect login credentials here');
+        return res.status(response.code).json(response);
+      }
+      const hash = user.password;
+      const result = bcrypt.compareSync(password, hash);
+      if (result) {
+        const { id, role } = user;
+
+        const token = jwtHelper.generateToken(id, email, role);
+        const response = new Response(true, 200, 'user logged in sucessfully', { token });
+        return res.status(response.code).json(response);
+      }
+
+      const response = new Response(false, 401, 'Incorrect login credentials');
+      return res.status(response.code).json(response);
+    } catch (error) {
+      return res.status(500).json(new Response(false, 500, 'server error', error.errors[0].message));
     }
   }
 }
