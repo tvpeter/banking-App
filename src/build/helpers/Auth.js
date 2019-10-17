@@ -57,8 +57,15 @@ class Auth {
         const response = new _Response2.default(false, 401, 'Unathorized, You did not provide a token');
         return res.status(response.code).json(response);
       }
-      const payload = await _jsonwebtoken2.default.verify(token, secret);
-      req.payload = payload;
+      const decoded = _jsonwebtoken2.default.verify(token, secret);
+      const user = await User.findOne({
+        where: { id: decoded.userId, email: decoded.userEmail }
+      });
+
+      if (!user || user.status !== 'active') {
+        return res.status(401).json(new _Response2.default(false, 401, 'You don\'t have permission to access this route'));
+      }
+      req.payload = decoded;
       return next();
     } catch (err) {
       const response = new _Response2.default(false, 401, 'Unauthorized, Your token is invalid or expired');

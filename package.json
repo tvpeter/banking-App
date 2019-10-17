@@ -13,7 +13,7 @@
     "migrate": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo:all",
     "seed": "sequelize db:seed:all",
-    "db:reset": "npm run migrate:undo && npm run migrate"
+    "db:reset": "npm run migrate:undo && npm run migrate && npm run seed"
   },
   "repository": {
     "type": "git",

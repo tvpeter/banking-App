@@ -25,6 +25,10 @@ module.exports = {
         key: 'id',
       },
     },
+    amount: {
+      type: Sequelize.DataTypes.DECIMAL(13, 2),
+      allowNull: false,
+    },
     description: {
       type: Sequelize.STRING,
       allowNull: false,

@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     accountNumber: DataTypes.BIGINT,
     userId: DataTypes.BIGINT,
     description: DataTypes.STRING,
+    amount: DataTypes.DECIMAL(13, 2),
   }, {});
   Transaction.associate = (models) => {
     Transaction.belongsTo(models.Account, {
