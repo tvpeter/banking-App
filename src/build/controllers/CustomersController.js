@@ -14,10 +14,10 @@ var _Response2 = _interopRequireDefault(_Response);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const { Branch } = _models2.default;
+const { Customer } = _models2.default;
 
 /** authentication controller class */
-class BranchController {
+class CustomerController {
   /**
    * @description - this method creates user
    *
@@ -25,20 +25,24 @@ class BranchController {
    * @param {object} res  - the request sent back from the controller
    * @returns {object} - object
    */
-  static async create(req, res) {
+  static async register(req, res) {
     try {
       const {
-        name, location, email, address
+        firstName, lastName, email, phone, gender, dob
       } = req.body;
 
-      const { dataValues } = await Branch.create({
-        name,
-        location,
+      const { dataValues } = await Customer.create({
+        firstName,
+        lastName,
         email,
-        address
+        phone,
+        gender,
+        dob,
+        status: 'active'
       });
 
-      const response = new _Response2.default(true, 201, 'Branch created successfully', dataValues);
+      const response = new _Response2.default(true, 201, 'Customer registered successfully', dataValues);
+
       return res.status(response.code).json(response);
     } catch (err) {
       return res.status(500).json(new _Response2.default(false, 500, 'server error', err.errors[0].message));
@@ -46,4 +50,4 @@ class BranchController {
   }
 }
 
-exports.default = BranchController;
+exports.default = CustomerController;

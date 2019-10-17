@@ -21,6 +21,11 @@ module.exports = {
       unique: true,
       type: Sequelize.STRING
     },
+    phone: {
+      allowNull: false,
+      unique: true,
+      type: Sequelize.STRING
+    },
     gender: {
       allowNull: false,
       type: Sequelize.ENUM('male', 'female')
@@ -43,5 +48,5 @@ module.exports = {
       type: Sequelize.DATE
     }
   }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('Customers')
+  down: queryInterface => queryInterface.dropTable('Customers')
 };

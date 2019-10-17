@@ -1,10 +1,10 @@
 import db from '../database/models';
 import Response from '../helpers/Response';
 
-const { Branch } = db;
+const { Customer } = db;
 
 /** authentication controller class */
-class BranchController {
+class CustomerController {
   /**
    * @description - this method creates user
    *
@@ -12,23 +12,27 @@ class BranchController {
    * @param {object} res  - the request sent back from the controller
    * @returns {object} - object
    */
-  static async create(req, res) {
+  static async register(req, res) {
     try {
       const {
-        name, location, email, address,
+        firstName, lastName, email, phone, gender, dob,
       } = req.body;
 
-      const { dataValues } = await Branch.create({
-        name,
-        location,
+      const { dataValues } = await Customer.create({
+        firstName,
+        lastName,
         email,
-        address,
+        phone,
+        gender,
+        dob,
+        status: 'active',
       });
 
       const response = new Response(
-        true, 201, 'Branch created successfully',
+        true, 201, 'Customer registered successfully',
         dataValues,
       );
+
       return res.status(response.code).json(response);
     } catch (err) {
       return res.status(500).json(new Response(false, 500, 'server error', err.errors[0].message));
@@ -36,4 +40,4 @@ class BranchController {
   }
 }
 
-export default BranchController;
+export default CustomerController;
