@@ -79,22 +79,19 @@ class Auth {
    */
   static async login(req, res) {
     const { email, password } = req.body;
-
     try {
       const user = await User.findOne({ where: { email } });
       if (!user) {
-        const response = new _Response2.default(false, 401, 'Incorrect login credentials');
+        const response = new _Response2.default(false, 401, 'Incorrect login credentials here');
         return res.status(response.code).json(response);
       }
-
       const hash = user.password;
-      const result = _bcrypt2.default.compareSync(hash, password);
-
+      const result = _bcrypt2.default.compareSync(password, hash);
       if (result) {
         const { id, role } = user;
 
         const token = _Auth2.default.generateToken(id, email, role);
-        const response = new _Response2.default(true, 200, 'user logged in sucessfully', token);
+        const response = new _Response2.default(true, 200, 'user logged in sucessfully', { token });
         return res.status(response.code).json(response);
       }
 

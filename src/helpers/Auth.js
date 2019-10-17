@@ -43,8 +43,17 @@ class Auth {
         );
         return res.status(response.code).json(response);
       }
-      const payload = await jwt.verify(token, secret);
-      req.payload = payload;
+      const decoded = jwt.verify(token, secret);
+      const user = await User.findOne({
+        where: { id: decoded.userId, email: decoded.userEmail },
+      });
+
+      if (!user || user.status !== 'active') {
+        return res.status(401).json(
+          new Response(false, 401, 'You don\'t have permission to access this route'),
+        );
+      }
+      req.payload = decoded;
       return next();
     } catch (err) {
       const response = new Response(
@@ -75,9 +84,12 @@ class Auth {
         );
       }
       try {
-        const decoded = jwt.verify(token, envSecret);
-        const user = await User.findOne({ where: { id: decoded.payload.id } });
-        if (!user || user.status !== 'active' || user.role !== role) {
+        const decoded = jwt.verify(token, secret);
+        const user = await User.findOne({
+          where: { id: decoded.userId, email: decoded.userEmail, role },
+        });
+
+        if (!user || user.status !== 'active') {
           return res.status(401).json(
             new Response(false, 401, `Only active ${role}s can access this resource`),
           );
@@ -85,7 +97,7 @@ class Auth {
         req.payload = decoded;
         return next();
       } catch (error) {
-        return res.status(500).json(new Response(false, 500, 'There\'s an error processing your token'));
+        return res.status(401).json(new Response(false, 401, 'Unauthorized, invalid token'));
       }
     };
   }

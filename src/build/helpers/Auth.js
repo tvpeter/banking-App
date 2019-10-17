@@ -82,15 +82,18 @@ class Auth {
         return res.status(401).json(new _Response2.default(false, 401, 'Unauthorized, You did not provide a token'));
       }
       try {
-        const decoded = _jsonwebtoken2.default.verify(token, envSecret);
-        const user = await User.findOne({ where: { id: decoded.payload.id } });
-        if (!user || user.status !== 'active' || user.role !== role) {
+        const decoded = _jsonwebtoken2.default.verify(token, secret);
+        const user = await User.findOne({
+          where: { id: decoded.userId, email: decoded.userEmail, role }
+        });
+
+        if (!user || user.status !== 'active') {
           return res.status(401).json(new _Response2.default(false, 401, `Only active ${role}s can access this resource`));
         }
         req.payload = decoded;
         return next();
       } catch (error) {
-        return res.status(500).json(new _Response2.default(false, 500, 'There\'s an error processing your token'));
+        return res.status(401).json(new _Response2.default(false, 401, 'Unauthorized, invalid token'));
       }
     };
   }

@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     email: DataTypes.STRING,
+    phone: DataTypes.STRING,
     gender: DataTypes.ENUM('male', 'female'),
     dob: DataTypes.DATEONLY,
     status: DataTypes.ENUM('active', 'deleted')
