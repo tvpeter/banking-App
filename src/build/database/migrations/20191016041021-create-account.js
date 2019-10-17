@@ -54,7 +54,8 @@ module.exports = {
       }
     },
     balance: {
-      type: Sequelize.DataTypes.DECIMAL
+      type: Sequelize.DataTypes.DECIMAL(13, 2),
+      allowNull: false
     },
     createdAt: {
       allowNull: false,
@@ -65,7 +66,7 @@ module.exports = {
       type: Sequelize.DATE
     }
   }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('Accounts')
+  down: queryInterface => queryInterface.dropTable('Accounts')
 };
 
 // new Date();

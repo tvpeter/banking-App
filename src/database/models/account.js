@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     accountTypeId: DataTypes.INTEGER,
     customerId: DataTypes.INTEGER,
     branchId: DataTypes.INTEGER,
-    staffId: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER,
+    balance: DataTypes.DECIMAL(13, 2),
   }, {});
   Account.associate = (models) => {
     Account.belongsTo(models.Customer, {
@@ -13,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     });
-    Account.hasMany(models.Account, {
-      foreignKey: 'staffId',
-      as: 'account',
+    Account.belongsTo(models.User, {
+      foreignKey: 'userId',
+      as: 'user',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });

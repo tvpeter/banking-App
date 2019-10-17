@@ -4,11 +4,11 @@ import { check } from 'express-validator';
 const branchSchema = [
   check('name')
     .exists()
-    .withMessage('Location is required')
+    .withMessage('name is required')
     .trim()
     .not()
     .isEmpty()
-    .withMessage('Email must not be empty'),
+    .withMessage('name must not be empty'),
   check('location')
     .exists()
     .withMessage('location is required')
@@ -25,7 +25,7 @@ const branchSchema = [
     .withMessage('Email must not be empty'),
   check('address')
     .exists()
-    .withMessage('branch email is required')
+    .withMessage('branch address is required')
     .trim()
     .not()
     .isEmpty()

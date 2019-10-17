@@ -82,7 +82,7 @@ class Auth {
     try {
       const user = await User.findOne({ where: { email } });
       if (!user) {
-        const response = new _Response2.default(false, 401, 'Incorrect login credentials here');
+        const response = new _Response2.default(false, 401, 'Incorrect login credentials');
         return res.status(response.code).json(response);
       }
       const hash = user.password;
@@ -98,7 +98,7 @@ class Auth {
       const response = new _Response2.default(false, 401, 'Incorrect login credentials');
       return res.status(response.code).json(response);
     } catch (error) {
-      return res.status(500).json(new _Response2.default(false, 500, 'server error', error.errors[0].message));
+      return res.status(500).json(new _Response2.default(false, 500, 'server error', error));
     }
   }
 }
